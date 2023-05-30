@@ -3,7 +3,7 @@
     // Clase Alquiler
     public class Alquiler
     {
-      
+                                                                                                                         
 
         public int Id { get; set; }
 
