@@ -1,5 +1,6 @@
 ﻿using Alquilandome.Data.Request;
 using Alquilandome.Data.Response;
+using System.ComponentModel.DataAnnotations;
 
 namespace Alquilandome.Data.entities
 {
@@ -7,7 +8,7 @@ namespace Alquilandome.Data.entities
     public class Alquiler
     {
                                                                                                                          
-
+        [Key]
         public int Id { get; set; }
 
         public int ClienteId { get; set; }
@@ -18,14 +19,16 @@ namespace Alquilandome.Data.entities
 
         public decimal Total { get; set; }
 
-        public static Alquiler  crear (AlquilerRequest Alquiler)
+        public virtual ICollection<AlquilerDetalle> Detalles {get; set;}
+
+        public static Alquiler  Crear (AlquilerRequest Alquiler)
         =>new Alquiler()
         {
         ClienteId = Alquiler.ClienteId,
         FechaDeEntrega=Alquiler.FechaDeEntrega,
         Fecha=Alquiler.Fecha,
         Total=Alquiler.Total,
-
+        Detalles = Alquiler.Detalles.Select(d=>AlquilerDetalle.Crear(d)).ToList();
         };
         public bool Modificar(AlquilerRequest Alquiler)
         {
@@ -54,14 +57,15 @@ namespace Alquilandome.Data.entities
 
         }
 
-        public AlquilerResponse toRespose()
+        public AlquilerResponse ToResponse()
             => new AlquilerResponse()
             {
                 ClienteId = ClienteId,
+                Cliente = Cliente.ToResponse(),
                 FechaDeEntrega = FechaDeEntrega,
                 Fecha = Fecha,
                 Total = Total,
-
+                Detalles = Detalles.Select(d=>d.ToResponse()).ToList()
             };
 
 

@@ -1,18 +1,27 @@
 ﻿using Alquilandome.Data.Request;
 using Alquilandome.Data.Response;
+using Microsoft.AspNetCore.ResponseCaching;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Alquilandome.Data.entities
 {
     // Clase AlquilerDetalle
     public class AlquilerDetalle
     {
+        [Key]
         public int Id { get; set; }
         public int AlquilerId { get; set; }
+        
+        [ForeignKey("AlquilerId")]
+        public virtual Alquiler Alquiler { get; set; }
+
         public int ArticuloId { get; set; }
         public int Cantidad { get; set; }
         public decimal PrecioAlquiler { get; set; }
+        public bool Recibido { get; set; }
 
-        public static AlquilerDetalle crear(AlquilerDetalleRequest AlquilerDEtalle)
+        public static AlquilerDetalle Crear(AlquilerDetalleRequest AlquilerDEtalle)
         =>new AlquilerDetalle()
        {
            AlquilerId = AlquilerDEtalle.AlquilerId,
@@ -21,38 +30,12 @@ namespace Alquilandome.Data.entities
            PrecioAlquiler = AlquilerDEtalle.PrecioAlquiler,
 
        };
-        public bool Modificar(AlquilerDetalleRequest AlquilerDEtalle)
-        {
-            var cambio = false;
-            if (AlquilerId != AlquilerDEtalle.AlquilerId)
-            {
-                AlquilerId = AlquilerDEtalle.AlquilerId;
-                cambio = true;
-            }
-            if (ArticuloId != AlquilerDEtalle.ArticuloId)
-            {
-                ArticuloId = AlquilerDEtalle.ArticuloId;
-                cambio = true;
-            }
-            if (Cantidad != AlquilerDEtalle.Cantidad)
-            {
-                PrecioAlquiler = AlquilerDEtalle.PrecioAlquiler;
-                cambio = true;
-            }
-            if (PrecioAlquiler != AlquilerDEtalle.PrecioAlquiler)
-            {
-                PrecioAlquiler = AlquilerDEtalle.PrecioAlquiler;
-                cambio = true;
-            }
-            return cambio;
-
-        }
-
-        public AlquilerDetalleResponse toRespose()
+        public AlquilerDetalleResponse ToResponse()
             => new AlquilerDetalleResponse()
             {
                 AlquilerId = AlquilerId,
                 ArticuloId = ArticuloId,
+                Articulo = Articulo.ToResponse(),
                 Cantidad = Cantidad,
                 PrecioAlquiler = PrecioAlquiler,
 
