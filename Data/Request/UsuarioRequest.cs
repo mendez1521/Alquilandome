@@ -1,4 +1,4 @@
-﻿namespace Alquilandome.Data.Request
+﻿namespace Alquilandome.Data.Request;
     // Clase Usuario
     public class UsuarioRequest
 {
@@ -10,4 +10,4 @@
         public string Rol { get; set; }
     }
 
-}
+
