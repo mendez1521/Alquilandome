@@ -47,14 +47,14 @@ namespace Alquilandome.Data.entities
             return cambio;
 
         }
-        public ArticuloResponse toRespose()
+        public ArticuloResponse ToResponse()
             => new ArticuloResponse()
             {
+                Id = Id,
                 Referencia = Referencia,
                 Descripción = Descripción,
                 Cantidad = Cantidad,
                 PrecioAlquiler = PrecioAlquiler,
-
             };
     }
 

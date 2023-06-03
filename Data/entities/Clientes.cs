@@ -12,7 +12,7 @@ namespace Alquilandome.Data.entities
         public string Cedula { get; set; }
         public string Telefono { get; set; }
         public string Direccion { get; set; }
-        public string Correo { get; set; }
+        public string? Correo { get; set; }
         public string Sexo { get; set; }
 
         public static ClienteRequest crear(ClienteRequest ClienteRequest)
@@ -56,9 +56,10 @@ namespace Alquilandome.Data.entities
             return cambio;
 
         }
-        public ClienteResponse toRespose()
+        public ClienteResponse ToResponse()
             => new ClienteResponse()
             {
+                Id = Id,
                 Nombre = Nombre,
                 Cedula = Cedula,
                 Telefono = Telefono,
