@@ -1,7 +1,8 @@
 using Alquilandome.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Alquilandome.Data.Response;
-
+using Alquilandome.Data.Request;
+using Alquilandome.Data.entities;
 
 namespace Alquilandome.Data.Services;
 
@@ -31,7 +32,7 @@ public class AlquierServices
     {
         try
         {
-            var alquiler = dbContext.Alquileres
+            var alquiler = await dbContext.Alquileres
             .Include(a=>a.Detalles)
             .FirstOrDefaultAsync(a=>a.Id == request.Id);
             if(alquiler==null)
@@ -52,7 +53,7 @@ public class AlquierServices
             .Include(a=>a.Cliente)
             .Include(a=>a.Detalles)
             .ThenInclude(d=>d.Articulo)
-            .Where(a=>a.Cliente.Nombre.ToLower().Container(filtro.ToLower()))
+            .Where(a=>a.Cliente.Nombre.ToLower().Contains(filtro.ToLower()))
             .Select(a=>a.ToResponse())
             .ToListAsync();
 

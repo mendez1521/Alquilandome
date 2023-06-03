@@ -8,6 +8,6 @@
         public DateTime FechaDeEntrega { get; set; }
         public DateTime Fecha { get; set; }
         public decimal Total { get; set; }
-        public List<ArquilerDetalleResponse> Detalles {get; get;}
+        public List<AlquilerDetalleResponse> Detalles {get; set;}
     }
 }

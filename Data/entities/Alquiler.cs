@@ -1,4 +1,5 @@
-﻿using Alquilandome.Data.Request;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Alquilandome.Data.Request;
 using Alquilandome.Data.Response;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,6 +13,9 @@ namespace Alquilandome.Data.entities
         public int Id { get; set; }
 
         public int ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set;}
 
         public DateTime FechaDeEntrega { get; set; }
 
@@ -28,7 +32,9 @@ namespace Alquilandome.Data.entities
         FechaDeEntrega=Alquiler.FechaDeEntrega,
         Fecha=Alquiler.Fecha,
         Total=Alquiler.Total,
-        Detalles = Alquiler.Detalles.Select(d=>AlquilerDetalle.Crear(d)).ToList();
+        Detalles = Alquiler.Detalles
+        .Select(d=>AlquilerDetalle.Crear(d))
+        .ToList()
         };
         public bool Modificar(AlquilerRequest Alquiler)
         {

@@ -17,6 +17,9 @@ namespace Alquilandome.Data.entities
         public virtual Alquiler Alquiler { get; set; }
 
         public int ArticuloId { get; set; }
+        
+        [ForeignKey("ArticuloId")]
+        public virtual Articulo Articulo { get; set; }
         public int Cantidad { get; set; }
         public decimal PrecioAlquiler { get; set; }
         public bool Recibido { get; set; }
