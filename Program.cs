@@ -1,5 +1,6 @@
 using Alquilandome.Data;
 using Alquilandome.Data.Context;
+using Alquilandome.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddDbContext<MyDbContext>();
+builder.Services.AddDbContext<MyDbContext,t>();
 builder.Services.AddScoped<IMyDbContext,MyDbContext>();
-
+builder.Services.AddScoped<IArticuloServices,ArticuloServices>();
 
 
 
