@@ -6,7 +6,7 @@ using Alquilandome.Data.Request;
 using Alquilandome.Data.entities;
 namespace Alquilandome.Data.Services
 {
-    public class Resul
+    public class Result
 {
     public bool Success{ get; set; }
     public string? Message{ get; set; }
