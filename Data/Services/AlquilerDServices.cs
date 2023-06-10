@@ -1,33 +1,30 @@
-using System;
 using Alquilandome.Data.Context;
-using Microsoft.EntityFrameworkCore;
-using Alquilandome.Data.Response;
 using Alquilandome.Data.Request;
-using Alquilandome.Data.entities;
+
 namespace Alquilandome.Data.Services
 {
     public class Result
-{
-    public bool Success{ get; set; }
-    public string? Message{ get; set; }
+    {
+        public bool Success { get; set; }
+        public string? Message { get; set; }
 
-}
+    }
 
 
-    public class ArticuloServices : IArticuloServices
+    public class AlquilerDServices : IAlquilerDServices
     {
         private readonly IMyDbContext dbContext;
 
-        public ArticuloServices(IMyDbContext dbContext)
+        public AlquilerDServices(IMyDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
-        public async Task<Result> Crear(ArticuloRequest request)
+        public async Task<Result> Crear(AlquilerDetalleRequest request)
         {
             try
             {
-                var Articulo = Articulo.Crear(request);
-                dbContext.Articulos.Add(Articulo);
+                var AlquilerDetalle = AlquilerDetalle.Crear(request);
+                dbContext.AlquileresDetalles.Add(AlquilerDetalle);
                 await dbContext.SaveChangesAsync();
                 return new Result() { Message = "Ok", Success = true };
             }
@@ -37,16 +34,16 @@ namespace Alquilandome.Data.Services
             }
         }
 
-        public async Task<Result> Modificar(ArticuloRequest request)
+        public async Task<Result> Modificar(AlquilerDetalleRequest request)
         {
             try
             {
-                var Articulo = await dbContext.Articulos
+                var AlquilerDetalle = await dbContext.AlquileresDetalles
                 .FirstOrDefaultAsync(a => a.Id == request.Id);
-                if (Articulo == null)
-                    return new Result() { Message = "Articulo no modificado...", Success = false };
+                if (AlquilerDetalle == null)
+                    return new Result() { Message = "Alquiler no modificado...", Success = false };
 
-                if (Articulo.Modificar(request))
+                if (AlquilerDetalle.Modificar(request))
                     await dbContext.SaveChangesAsync();
 
                 return new Result() { Message = "Ok", Success = true };
@@ -56,16 +53,16 @@ namespace Alquilandome.Data.Services
                 return new Result() { Message = E.Message, Success = false };
             }
         }
-        public async Task<Result> Eliminar(ArticuloRequest request)
+        public async Task<Result> Eliminar(AlquilerDetalleRequest request)
         {
             try
             {
-                var Articulo = await dbContext.Articulos
+                var AlquilerDetalle = await dbContext.AlquileresDetalles
                 .FirstOrDefaultAsync(a => a.Id == request.Id);
-                if (Articulo == null)
-                    return new Result() { Message = "Articulo no modificado...", Success = false };
+                if (AlquilerDetalle == null)
+                    return new Result() { Message = "Alquiler no modificado...", Success = false };
 
-                dbContext.Articulos.Remove(Articulo);
+                dbContext.AlquileresDetalles.Remove(AlquilerDetalle);
                 await dbContext.SaveChangesAsync();
 
                 return new Result() { Message = "Ok", Success = true };
@@ -76,29 +73,29 @@ namespace Alquilandome.Data.Services
             }
         }
 
-        public async Task<Result<List<ArticuloRequest>>> Consultar(string filtro)
+        public async Task<Result<List<AlquilerDetalleRequest>>> Consultar(string filtro)
         {
             try
             {
-                var Articulo = await dbContext.Articulos
+                var AlquilerDetalle = await dbContext.AlquileresDetalles
                     .Where(a =>
-                    (a.Referencia + " " + a.Descripcion + " " + a.Cantidad + " " + a.PrecioAlquiler + " " + a.PrecioAlquiler)
+                    (a.Alquiler + " " + a.Articulo + " " + a.Cantidad + " " + a.PrecioAlquiler + " " + a.Recibido)
                     .Tolower()
                     .Contains(filtro.ToLower()
                     )
                     )
                     .Select(a => a.ToResponce())
                     .ToListAsync();
-                return new Result<List<ArticuloRequest>>()
+                return new Result<List<AlquilerDetalleRequest>>()
                 {
                     Message = "Ok",
                     Success = true,
-                    Data = Articulo
+                    Data = AlquilerDetalle
                 };
             }
             catch (Exception E)
             {
-                return new Result<List<ArticuloRequest>>
+                return new Result<List<AlquilerDetalleRequest>>
                 {
                     Message = E.Message,
                     Success = false

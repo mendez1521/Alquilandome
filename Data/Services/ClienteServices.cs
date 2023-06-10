@@ -7,27 +7,27 @@ using Alquilandome.Data.entities;
 namespace Alquilandome.Data.Services
 {
     public class Result
-{
-    public bool Success{ get; set; }
-    public string? Message{ get; set; }
+    {
+        public bool Success { get; set; }
+        public string? Message { get; set; }
 
-}
+    }
 
 
-    public class ArticuloServices : IArticuloServices
+    public class ClienteServices : IClienteServices
     {
         private readonly IMyDbContext dbContext;
 
-        public ArticuloServices(IMyDbContext dbContext)
+        public ClienteServices(IMyDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
-        public async Task<Result> Crear(ArticuloRequest request)
+        public async Task<Result> Crear(ClienteRequest request)
         {
             try
             {
-                var Articulo = Articulo.Crear(request);
-                dbContext.Articulos.Add(Articulo);
+                var Cliente = Cliente.Crear(request);
+                dbContext.Clientes.Add(Cliente);
                 await dbContext.SaveChangesAsync();
                 return new Result() { Message = "Ok", Success = true };
             }
@@ -37,16 +37,16 @@ namespace Alquilandome.Data.Services
             }
         }
 
-        public async Task<Result> Modificar(ArticuloRequest request)
+        public async Task<Result> Modificar(ClienteRequest request)
         {
             try
             {
-                var Articulo = await dbContext.Articulos
+                var Cliente = await dbContext.Clientes
                 .FirstOrDefaultAsync(a => a.Id == request.Id);
-                if (Articulo == null)
-                    return new Result() { Message = "Articulo no modificado...", Success = false };
+                if (Cliente == null)
+                    return new Result() { Message = "Cliente no modificado...", Success = false };
 
-                if (Articulo.Modificar(request))
+                if (Cliente.Modificar(request))
                     await dbContext.SaveChangesAsync();
 
                 return new Result() { Message = "Ok", Success = true };
@@ -60,12 +60,12 @@ namespace Alquilandome.Data.Services
         {
             try
             {
-                var Articulo = await dbContext.Articulos
+                var Cliente = await dbContext.Clientes
                 .FirstOrDefaultAsync(a => a.Id == request.Id);
-                if (Articulo == null)
-                    return new Result() { Message = "Articulo no modificado...", Success = false };
+                if (Cliente == null)
+                    return new Result() { Message = "Cliente no modificado...", Success = false };
 
-                dbContext.Articulos.Remove(Articulo);
+                dbContext.Clientes.Remove(Cliente);
                 await dbContext.SaveChangesAsync();
 
                 return new Result() { Message = "Ok", Success = true };
@@ -76,24 +76,24 @@ namespace Alquilandome.Data.Services
             }
         }
 
-        public async Task<Result<List<ArticuloRequest>>> Consultar(string filtro)
+        public async Task<Result<List<ClienteRequest>>> Consultar(string filtro)
         {
             try
             {
-                var Articulo = await dbContext.Articulos
+                var Cliente = await dbContext.Clientes
                     .Where(a =>
-                    (a.Referencia + " " + a.Descripcion + " " + a.Cantidad + " " + a.PrecioAlquiler + " " + a.PrecioAlquiler)
+                    (a.Nombre + " " + a.Cedula + " " + a.Telefono + " " + a.Direccion + " " + a.Correo + " " + a.Sexo)
                     .Tolower()
                     .Contains(filtro.ToLower()
                     )
                     )
                     .Select(a => a.ToResponce())
                     .ToListAsync();
-                return new Result<List<ArticuloRequest>>()
+                return new Result<List<ClienteRequest>>()
                 {
                     Message = "Ok",
                     Success = true,
-                    Data = Articulo
+                    Data = Cliente
                 };
             }
             catch (Exception E)
