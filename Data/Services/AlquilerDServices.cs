@@ -1,14 +1,10 @@
 using Alquilandome.Data.Context;
+using Alquilandome.Data.entities;
 using Alquilandome.Data.Request;
 
 namespace Alquilandome.Data.Services
 {
-    public class Result
-    {
-        public bool Success { get; set; }
-        public string? Message { get; set; }
-
-    }
+    
 
 
     public class AlquilerDServices : IAlquilerDServices
@@ -23,8 +19,8 @@ namespace Alquilandome.Data.Services
         {
             try
             {
-                var AlquilerDetalle = AlquilerDetalle.Crear(request);
-                dbContext.AlquileresDetalles.Add(AlquilerDetalle);
+                var alquilerDetalle = AlquilerDetalle.Crear(request);
+                dbContext.AlquileresDetalles.Add(alquilerDetalle);
                 await dbContext.SaveChangesAsync();
                 return new Result() { Message = "Ok", Success = true };
             }
@@ -38,12 +34,12 @@ namespace Alquilandome.Data.Services
         {
             try
             {
-                var AlquilerDetalle = await dbContext.AlquileresDetalles
+                var alquilerDetalle = await dbContext.AlquileresDetalles
                 .FirstOrDefaultAsync(a => a.Id == request.Id);
-                if (AlquilerDetalle == null)
+                if (alquilerDetalle == null)
                     return new Result() { Message = "Alquiler no modificado...", Success = false };
 
-                if (AlquilerDetalle.Modificar(request))
+                if (alquilerDetalle.Modificar(request))
                     await dbContext.SaveChangesAsync();
 
                 return new Result() { Message = "Ok", Success = true };
@@ -57,12 +53,12 @@ namespace Alquilandome.Data.Services
         {
             try
             {
-                var AlquilerDetalle = await dbContext.AlquileresDetalles
+                var alquilerDetalle = await dbContext.AlquileresDetalles
                 .FirstOrDefaultAsync(a => a.Id == request.Id);
-                if (AlquilerDetalle == null)
+                if (alquilerDetalle == null)
                     return new Result() { Message = "Alquiler no modificado...", Success = false };
 
-                dbContext.AlquileresDetalles.Remove(AlquilerDetalle);
+                dbContext.AlquileresDetalles.Remove(alquilerDetalle);
                 await dbContext.SaveChangesAsync();
 
                 return new Result() { Message = "Ok", Success = true };

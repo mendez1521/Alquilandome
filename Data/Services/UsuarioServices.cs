@@ -4,14 +4,6 @@ using Alquilandome.Data.Request;
 
 namespace Alquilandome.Data.Services
 {
-    public class Result
-    {
-        public bool Success { get; set; }
-        public string? Message { get; set; }
-
-    }
-
-
     public class UsuarioServices : IUsuarioServices
     {
         private readonly IMyDbContext dbContext;
@@ -24,8 +16,8 @@ namespace Alquilandome.Data.Services
         {
             try
             {
-                var Usuario = Usuario.Crear(request);
-                dbContext.Usuarios.Add(Usuario);
+                var usuario = Usuario.Crear(request);
+                dbContext.Usuarios.Add(usuario);
                 await dbContext.SaveChangesAsync();
                 return new Result() { Message = "Ok", Success = true };
             }

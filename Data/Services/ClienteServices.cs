@@ -6,12 +6,7 @@ using Alquilandome.Data.Request;
 using Alquilandome.Data.entities;
 namespace Alquilandome.Data.Services
 {
-    public class Result
-    {
-        public bool Success { get; set; }
-        public string? Message { get; set; }
-
-    }
+    
 
 
     public class ClienteServices : IClienteServices
@@ -26,8 +21,8 @@ namespace Alquilandome.Data.Services
         {
             try
             {
-                var Cliente = Cliente.Crear(request);
-                dbContext.Clientes.Add(Cliente);
+                var cliente = Cliente.Crear(request);
+                dbContext.Clientes.Add(cliente);
                 await dbContext.SaveChangesAsync();
                 return new Result() { Message = "Ok", Success = true };
             }

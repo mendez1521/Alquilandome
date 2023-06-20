@@ -6,14 +6,6 @@ using Alquilandome.Data.Request;
 using Alquilandome.Data.entities;
 namespace Alquilandome.Data.Services
 {
-    public class Result
-{
-    public bool Success{ get; set; }
-    public string? Message{ get; set; }
-
-}
-
-
     public class ArticuloServices : IArticuloServices
     {
         private readonly IMyDbContext dbContext;
