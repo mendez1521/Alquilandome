@@ -67,6 +67,17 @@ namespace Alquilandome.Data.entities
                 Correo = Correo,
                 Sexo = Sexo,
             };
+        public ClienteRequest ToRequest()
+            => new ClienteRequest()
+            {
+                Id = Id,
+                Nombre = Nombre,
+                Cedula = Cedula,
+                Telefono = Telefono,
+                Direccion = Direccion,
+                Correo = Correo,
+                Sexo = Sexo,
+            };
     }
 
 }

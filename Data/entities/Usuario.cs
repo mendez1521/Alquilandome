@@ -13,7 +13,7 @@ namespace Alquilandome.Data.entities
         public string Email { get; set; }
         public string Rol { get; set; }
 
-        public static UsuarioRequest crear(UsuarioRequest UsuarioRequest)
+        public static UsuarioRequest Crear(UsuarioRequest UsuarioRequest)
   => new UsuarioRequest()
   {
       Nombre = UsuarioRequest.Nombre,
@@ -53,6 +53,15 @@ namespace Alquilandome.Data.entities
         }
         public UsuarioResponse toRespose()
             => new UsuarioResponse()
+            {
+                Nombre = Nombre,
+                Nickname = Nickname,
+                Password = Password,
+                Email = Email,
+                Rol = Rol,
+            };
+        public UsuarioRequest ToRequest()
+            => new UsuarioRequest()
             {
                 Nombre = Nombre,
                 Nickname = Nickname,

@@ -21,7 +21,7 @@ namespace Alquilandome.Data.Services
         {
             try
             {
-                var cliente = Cliente.Crear(request);
+                var cliente = Cliente.crear(request);
                 dbContext.Clientes.Add(cliente);
                 await dbContext.SaveChangesAsync();
                 return new Result() { Message = "Ok", Success = true };
@@ -93,7 +93,7 @@ namespace Alquilandome.Data.Services
             }
             catch (Exception E)
             {
-                return new Result<List<ArticuloRequest>>
+                return new Result<List<ClienteRequest>>
                 {
                     Message = E.Message,
                     Success = false

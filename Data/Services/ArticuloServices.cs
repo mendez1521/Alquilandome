@@ -18,8 +18,8 @@ namespace Alquilandome.Data.Services
         {
             try
             {
-                var Articulo = Articulo.Crear(request);
-                dbContext.Articulos.Add(Articulo);
+                var articulo = Articulo.crear(request);
+                dbContext.Articulos.Add(articulo);
                 await dbContext.SaveChangesAsync();
                 return new Result() { Message = "Ok", Success = true };
             }

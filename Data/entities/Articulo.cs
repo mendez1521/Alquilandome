@@ -56,6 +56,15 @@ namespace Alquilandome.Data.entities
                 Cantidad = Cantidad,
                 PrecioAlquiler = PrecioAlquiler,
             };
+        public ArticuloRequest ToRequest()
+            => new ArticuloRequest()
+            {
+                Id = Id,
+                Referencia = Referencia,
+                Descripción = Descripción,
+                Cantidad = Cantidad,
+                PrecioAlquiler = PrecioAlquiler,
+            };
     }
 
 }
