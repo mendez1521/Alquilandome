@@ -1,8 +1,7 @@
 ﻿using Alquilandome.Data.Request;
 using Alquilandome.Data.Response;
 
-namespace Alquilandome.Data.entities
-{
+namespace Alquilandome.Data.entities;
     // Clase Usuario
     public class Usuario
     {
@@ -13,55 +12,46 @@ namespace Alquilandome.Data.entities
         public string Email { get; set; }
         public string Rol { get; set; }
 
-        public static UsuarioRequest Crear(UsuarioRequest UsuarioRequest)
-  => new UsuarioRequest()
-  {
-      Nombre = UsuarioRequest.Nombre,
-      Nickname = UsuarioRequest.Nickname,
-      Password = UsuarioRequest.Password,
-      Email = UsuarioRequest.Email,
-      Rol = UsuarioRequest.Rol,
-     
-  };
+        public static Usuario Crear(UsuarioRequest usuario)
+        => new Usuario()
+        {
+            Nombre = usuario.Nombre,
+            Nickname = usuario.Nickname,
+            Password = usuario.Password,
+            Email = usuario.Email,
+            Rol = usuario.Rol,
+            
+        };
 
-        public bool Modificar(UsuarioRequest UsuarioRequest)
+        public bool Modificar(UsuarioRequest request)
         {
             var cambio = false;
-            if (Nombre != UsuarioRequest.Nombre)
+            if (Nombre != request.Nombre)
             {
-                Nombre = UsuarioRequest.Nombre;
+                Nombre = request.Nombre;
                 cambio = true;
             }
-            if (Nickname != UsuarioRequest.Nickname)
+            if (Nickname != request.Nickname)
             {
-                Nickname = UsuarioRequest.Nickname;
+                Nickname = request.Nickname;
                 cambio = true;
             }
-            if (Password != UsuarioRequest.Password)
+            if (Password != request.Password)
             {
-                Password = UsuarioRequest.Password;
+                Password = request.Password;
                 cambio = true;
             }
-            if (Email != UsuarioRequest.Email)
+            if (Email != request.Email)
             {
-                Rol = UsuarioRequest.Rol;
+                Rol = request.Rol;
                 cambio = true;
             }
             return cambio;
 
 
         }
-        public UsuarioResponse toRespose()
+        public UsuarioResponse toResponse()
             => new UsuarioResponse()
-            {
-                Nombre = Nombre,
-                Nickname = Nickname,
-                Password = Password,
-                Email = Email,
-                Rol = Rol,
-            };
-        public UsuarioRequest ToRequest()
-            => new UsuarioRequest()
             {
                 Nombre = Nombre,
                 Nickname = Nickname,
@@ -71,4 +61,4 @@ namespace Alquilandome.Data.entities
             };
     }
 
-}
+

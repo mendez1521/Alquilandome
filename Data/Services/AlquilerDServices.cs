@@ -1,11 +1,18 @@
 using Alquilandome.Data.Context;
 using Alquilandome.Data.entities;
 using Alquilandome.Data.Request;
+using Alquilandome.Data.Response;
+using Microsoft.EntityFrameworkCore;
 
 namespace Alquilandome.Data.Services
 {
-    
-
+    public interface IAlquilerDServices
+    {
+        Task<Result<List<AlquilerDetalleResponse>>> Consultar(string filtro);
+        Task<Result> Crear(AlquilerDetalleRequest request);
+        Task<Result> Eliminar(AlquilerDetalleRequest request);
+        Task<Result> Modificar(AlquilerDetalleRequest request);
+    }
 
     public class AlquilerDServices : IAlquilerDServices
     {
@@ -69,20 +76,20 @@ namespace Alquilandome.Data.Services
             }
         }
 
-        public async Task<Result<List<AlquilerDetalleRequest>>> Consultar(string filtro)
+        public async Task<Result<List<AlquilerDetalleResponse>>> Consultar(string filtro)
         {
             try
             {
                 var AlquilerDetalle = await dbContext.AlquileresDetalles
                     .Where(a =>
                     (a.Alquiler + " " + a.Articulo + " " + a.Cantidad + " " + a.PrecioAlquiler + " " + a.Recibido)
-                    .Tolower()
+                    .ToLower()
                     .Contains(filtro.ToLower()
                     )
                     )
-                    .Select(a => a.ToResponce())
+                    .Select(a => a.ToResponse())
                     .ToListAsync();
-                return new Result<List<AlquilerDetalleRequest>>()
+                return new Result<List<AlquilerDetalleResponse>>()
                 {
                     Message = "Ok",
                     Success = true,
@@ -91,7 +98,7 @@ namespace Alquilandome.Data.Services
             }
             catch (Exception E)
             {
-                return new Result<List<AlquilerDetalleRequest>>
+                return new Result<List<AlquilerDetalleResponse>>
                 {
                     Message = E.Message,
                     Success = false

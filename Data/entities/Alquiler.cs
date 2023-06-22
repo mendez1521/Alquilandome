@@ -25,14 +25,14 @@ namespace Alquilandome.Data.entities
 
         public virtual ICollection<AlquilerDetalle> Detalles {get; set;}
 
-        public static Alquiler  Crear (AlquilerRequest Alquiler)
+        public static Alquiler Crear(AlquilerRequest alquiler)
         =>new Alquiler()
         {
-        ClienteId = Alquiler.ClienteId,
-        FechaDeEntrega=Alquiler.FechaDeEntrega,
-        Fecha=Alquiler.Fecha,
-        Total=Alquiler.Total,
-        Detalles = Alquiler.Detalles
+        ClienteId = alquiler.ClienteId,
+        FechaDeEntrega=alquiler.FechaDeEntrega,
+        Fecha=alquiler.Fecha,
+        Total=alquiler.Total,
+        Detalles = alquiler.Detalles
         .Select(d=>AlquilerDetalle.Crear(d))
         .ToList()
         };

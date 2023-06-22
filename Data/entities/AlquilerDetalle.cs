@@ -33,22 +33,36 @@ namespace Alquilandome.Data.entities
            PrecioAlquiler = AlquilerDEtalle.PrecioAlquiler,
 
        };
+
+       public bool Modificar(AlquilerDetalleRequest articulo)
+        {
+            var cambio = false;
+            if (ArticuloId != articulo.ArticuloId)
+            {
+                ArticuloId = articulo.ArticuloId;
+                cambio = true;
+            }
+            if (Cantidad != articulo.Cantidad)
+            {
+                Cantidad = articulo.Cantidad;
+                cambio = true;
+            }
+            if (PrecioAlquiler != articulo.PrecioAlquiler)
+            {
+                PrecioAlquiler = articulo.PrecioAlquiler;
+                cambio = true;
+            }
+            
+            return cambio;
+
+        }
+
         public AlquilerDetalleResponse ToResponse()
             => new AlquilerDetalleResponse()
             {
                 AlquilerId = AlquilerId,
                 ArticuloId = ArticuloId,
                 Articulo = Articulo.ToResponse(),
-                Cantidad = Cantidad,
-                PrecioAlquiler = PrecioAlquiler,
-
-            };
-        public AlquilerDetalleRequest ToRequest()
-            => new AlquilerDetalleRequest()
-            {
-                AlquilerId = AlquilerId,
-                ArticuloId = ArticuloId,
-                Articulo = Articulo.ToRequest(),
                 Cantidad = Cantidad,
                 PrecioAlquiler = PrecioAlquiler,
 

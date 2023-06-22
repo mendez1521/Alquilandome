@@ -12,36 +12,36 @@ namespace Alquilandome.Data.entities
         public int Cantidad { get; set; }
         public decimal PrecioAlquiler { get; set; }
 
-        public static ArticuloRequest crear(ArticuloRequest ArticuloRequest)
-       => new ArticuloRequest()
+        public static Articulo crear(ArticuloRequest articulo)
+       => new Articulo()
        {
-           Referencia = ArticuloRequest.Referencia,
-           Descripción = ArticuloRequest.Descripción,
-           Cantidad = ArticuloRequest.Cantidad,
-           PrecioAlquiler = ArticuloRequest.PrecioAlquiler,
+           Referencia = articulo.Referencia,
+           Descripción = articulo.Descripción,
+           Cantidad = articulo.Cantidad,
+           PrecioAlquiler = articulo.PrecioAlquiler,
 
        };
-        public bool Modificar(ArticuloRequest ArticuloRequest)
+        public bool Modificar(ArticuloRequest articulo)
         {
             var cambio = false;
-            if (Referencia != ArticuloRequest.Referencia)
+            if (Referencia != articulo.Referencia)
             {
-                Referencia = ArticuloRequest.Referencia;
+                Referencia = articulo.Referencia;
                 cambio = true;
             }
-            if (Descripción != ArticuloRequest.Descripción)
+            if (Descripción != articulo.Descripción)
             {
-                Descripción = ArticuloRequest.Descripción;
+                Descripción = articulo.Descripción;
                 cambio = true;
             }
-            if (Cantidad != ArticuloRequest.Cantidad)
+            if (Cantidad != articulo.Cantidad)
             {
-                PrecioAlquiler = ArticuloRequest.PrecioAlquiler;
+                PrecioAlquiler = articulo.PrecioAlquiler;
                 cambio = true;
             }
-            if (PrecioAlquiler != ArticuloRequest.PrecioAlquiler)
+            if (PrecioAlquiler != articulo.PrecioAlquiler)
             {
-                PrecioAlquiler = ArticuloRequest.PrecioAlquiler;
+                PrecioAlquiler = articulo.PrecioAlquiler;
                 cambio = true;
             }
             return cambio;
@@ -49,15 +49,6 @@ namespace Alquilandome.Data.entities
         }
         public ArticuloResponse ToResponse()
             => new ArticuloResponse()
-            {
-                Id = Id,
-                Referencia = Referencia,
-                Descripción = Descripción,
-                Cantidad = Cantidad,
-                PrecioAlquiler = PrecioAlquiler,
-            };
-        public ArticuloRequest ToRequest()
-            => new ArticuloRequest()
             {
                 Id = Id,
                 Referencia = Referencia,

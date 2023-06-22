@@ -1,4 +1,6 @@
-﻿namespace Alquilandome.Data.Response
+﻿using Alquilandome.Data.Request;
+
+namespace Alquilandome.Data.Response
 {
 
     // Clase Cliente
@@ -11,6 +13,20 @@
         public string Direccion { get; set; }
         public string? Correo { get; set; }
         public string Sexo { get; set; }
+
+        public ClienteRequest ToRequest()
+        { 
+            return new ClienteRequest 
+            { 
+                Id = Id,
+                Nombre = Nombre, 
+                Cedula = Cedula, 
+                Telefono = Telefono, 
+                Direccion = Direccion,
+                Correo = Correo,
+                Sexo = Sexo
+            }; 
+        }
     }
 
 }

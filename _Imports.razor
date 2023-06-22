@@ -8,6 +8,10 @@
 @using Microsoft.JSInterop
 @using Alquilandome
 @using Alquilandome.Shared
-♠using Alquilandome.Data.Services
+@using Alquilandome.Data.Services
 
-@inject IArticuloServices ArticuloServices;
+@inject IArticuloServices articuloServices;
+@inject IAlquilerDServices alquilerDServices;
+@inject IAlquilerServices alquilerServices;
+@inject IClienteServices clienteServices;
+@inject IUsuarioServices usuarioServices;

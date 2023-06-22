@@ -15,15 +15,15 @@ namespace Alquilandome.Data.entities
         public string? Correo { get; set; }
         public string Sexo { get; set; }
 
-        public static ClienteRequest crear(ClienteRequest ClienteRequest)
-     => new ClienteRequest()
+        public static Cliente crear(ClienteRequest cliente)
+     => new Cliente()
      {
-         Nombre = ClienteRequest.Nombre,
-         Cedula = ClienteRequest.Cedula,
-         Telefono = ClienteRequest.Telefono,
-         Direccion = ClienteRequest.Direccion,
-         Correo = ClienteRequest.Correo,
-         Sexo = ClienteRequest.Sexo,
+         Nombre = cliente.Nombre,
+         Cedula = cliente.Cedula,
+         Telefono = cliente.Telefono,
+         Direccion = cliente.Direccion,
+         Correo = cliente.Correo,
+         Sexo = cliente.Sexo
      };
         public bool Modificar(ClienteRequest ClienteRequest)
         {
@@ -58,17 +58,6 @@ namespace Alquilandome.Data.entities
         }
         public ClienteResponse ToResponse()
             => new ClienteResponse()
-            {
-                Id = Id,
-                Nombre = Nombre,
-                Cedula = Cedula,
-                Telefono = Telefono,
-                Direccion = Direccion,
-                Correo = Correo,
-                Sexo = Sexo,
-            };
-        public ClienteRequest ToRequest()
-            => new ClienteRequest()
             {
                 Id = Id,
                 Nombre = Nombre,

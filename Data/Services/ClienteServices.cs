@@ -6,8 +6,13 @@ using Alquilandome.Data.Request;
 using Alquilandome.Data.entities;
 namespace Alquilandome.Data.Services
 {
-    
-
+    public interface IClienteServices
+    {
+        Task<Result<List<ClienteResponse>>> Consultar(string filtro);
+        Task<Result> Crear(ClienteRequest request);
+        Task<Result> Eliminar(ArticuloRequest request);
+        Task<Result> Modificar(ClienteRequest request);
+    }
 
     public class ClienteServices : IClienteServices
     {
@@ -71,20 +76,20 @@ namespace Alquilandome.Data.Services
             }
         }
 
-        public async Task<Result<List<ClienteRequest>>> Consultar(string filtro)
+        public async Task<Result<List<ClienteResponse>>> Consultar(string filtro)
         {
             try
             {
                 var Cliente = await dbContext.Clientes
                     .Where(a =>
                     (a.Nombre + " " + a.Cedula + " " + a.Telefono + " " + a.Direccion + " " + a.Correo + " " + a.Sexo)
-                    .Tolower()
+                    .ToLower()
                     .Contains(filtro.ToLower()
                     )
                     )
-                    .Select(a => a.ToResponce())
+                    .Select(a => a.ToResponse())
                     .ToListAsync();
-                return new Result<List<ClienteRequest>>()
+                return new Result<List<ClienteResponse>>()
                 {
                     Message = "Ok",
                     Success = true,
@@ -93,7 +98,7 @@ namespace Alquilandome.Data.Services
             }
             catch (Exception E)
             {
-                return new Result<List<ClienteRequest>>
+                return new Result<List<ClienteResponse>>
                 {
                     Message = E.Message,
                     Success = false

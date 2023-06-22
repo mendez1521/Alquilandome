@@ -1,9 +1,20 @@
+using System;
 using Alquilandome.Data.Context;
 using Alquilandome.Data.entities;
 using Alquilandome.Data.Request;
+using Alquilandome.Data.Response;
+using Microsoft.EntityFrameworkCore;
 
 namespace Alquilandome.Data.Services
 {
+    public interface IUsuarioServices
+    {
+        Task<Result<List<UsuarioResponse>>> Consultar(string filtro);
+        Task<Result> Crear(UsuarioRequest request);
+        Task<Result> Eliminar(UsuarioRequest request);
+        Task<Result> Modificar(UsuarioRequest request);
+    }
+
     public class UsuarioServices : IUsuarioServices
     {
         private readonly IMyDbContext dbContext;
@@ -31,12 +42,12 @@ namespace Alquilandome.Data.Services
         {
             try
             {
-                var Usuario = await dbContext.Usuarios
+                var usuario = await dbContext.Usuarios
                 .FirstOrDefaultAsync(a => a.Id == request.Id);
-                if (Usuario == null)
+                if (usuario == null)
                     return new Result() { Message = "Usuario no modificado...", Success = false };
 
-                if (Usuario.Modificar(request))
+                if (usuario.Modificar(request))
                     await dbContext.SaveChangesAsync();
 
                 return new Result() { Message = "Ok", Success = true };
@@ -66,35 +77,34 @@ namespace Alquilandome.Data.Services
             }
         }
 
-        public async Task<Result<List<UsuarioRequest>>> Consultar(string filtro)
+        public async Task<Result<List<UsuarioResponse>>> Consultar(string filtro)
         {
             try
             {
-                var Usuario = await dbContext.Usuarios
+                var usuario = await dbContext.Usuarios
                     .Where(a =>
-                    (a.Nombre + " " + a.Nickname + " " + a.Password + " " + a.Email + " " + a.Rol)
-                    .Tolower()
+                    (a.Nombre + " "+ a.Nickname +" "+ a.Password + " " + a.Email + " " + a.Rol)
+                    .ToLower()
                     .Contains(filtro.ToLower()
                     )
                     )
-                    .Select(a => a.ToResponce())
+                    .Select(a => a.toResponse())
                     .ToListAsync();
-                return new Result<List<UsuarioRequest>>()
+                return new Result<List<UsuarioResponse>>()
                 {
                     Message = "Ok",
                     Success = true,
-                    Data = Usuario
+                    Data = usuario
                 };
             }
             catch (Exception E)
             {
-                return new Result<List<UsuarioRequest>>
+                return new Result<List<UsuarioResponse>>
                 {
                     Message = E.Message,
                     Success = false
                 };
             }
         }
-
     }
 }

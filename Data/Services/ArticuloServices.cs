@@ -6,6 +6,14 @@ using Alquilandome.Data.Request;
 using Alquilandome.Data.entities;
 namespace Alquilandome.Data.Services
 {
+    public interface IArticuloServices
+    {
+        Task<Result<List<ArticuloResponse>>> Consultar(string filtro);
+        Task<Result> Crear(ArticuloRequest request);
+        Task<Result> Eliminar(ArticuloRequest request);
+        Task<Result> Modificar(ArticuloRequest request);
+    }
+
     public class ArticuloServices : IArticuloServices
     {
         private readonly IMyDbContext dbContext;
@@ -33,12 +41,12 @@ namespace Alquilandome.Data.Services
         {
             try
             {
-                var Articulo = await dbContext.Articulos
+                var articulo = await dbContext.Articulos
                 .FirstOrDefaultAsync(a => a.Id == request.Id);
-                if (Articulo == null)
+                if (articulo == null)
                     return new Result() { Message = "Articulo no modificado...", Success = false };
 
-                if (Articulo.Modificar(request))
+                if (articulo.Modificar(request))
                     await dbContext.SaveChangesAsync();
 
                 return new Result() { Message = "Ok", Success = true };
@@ -68,29 +76,29 @@ namespace Alquilandome.Data.Services
             }
         }
 
-        public async Task<Result<List<ArticuloRequest>>> Consultar(string filtro)
+        public async Task<Result<List<ArticuloResponse>>> Consultar(string filtro)
         {
             try
             {
-                var Articulo = await dbContext.Articulos
+                var articulos = await dbContext.Articulos
                     .Where(a =>
-                    (a.Referencia + " " + a.Descripcion + " " + a.Cantidad + " " + a.PrecioAlquiler + " " + a.PrecioAlquiler)
-                    .Tolower()
+                    (a.Referencia + " " + a.Descripción + " " + a.Cantidad + " " + a.PrecioAlquiler + " " + a.PrecioAlquiler)
+                    .ToLower()
                     .Contains(filtro.ToLower()
                     )
                     )
-                    .Select(a => a.ToResponce())
+                    .Select(a => a.ToResponse())
                     .ToListAsync();
-                return new Result<List<ArticuloRequest>>()
+                return new Result<List<ArticuloResponse>>()
                 {
                     Message = "Ok",
                     Success = true,
-                    Data = Articulo
+                    Data = articulos
                 };
             }
             catch (Exception E)
             {
-                return new Result<List<ArticuloRequest>>
+                return new Result<List<ArticuloResponse>>
                 {
                     Message = E.Message,
                     Success = false

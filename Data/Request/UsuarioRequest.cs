@@ -1,7 +1,7 @@
 ﻿namespace Alquilandome.Data.Request;
     // Clase Usuario
     public class UsuarioRequest
-{
+    {
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Nickname { get; set; }
