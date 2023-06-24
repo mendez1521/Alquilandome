@@ -1,0 +1,6 @@
+﻿Operación Compilar iniciada..
+1>------ Operación Compilar iniciada: Proyecto: Alquilandome, configuración: Debug Any CPU ------
+1>Omitiendo analizadores para acelerar la compilación. Puede ejecutar los comandos "Build" o "Rebuild" para ejecutar los analizadores.
+1>Alquilandome -> C:\Users\82920\Source\Repos\Alquilandome\bin\Debug\net6.0\Alquilandome.dll
+========== Compilación: 1 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+========= Compilar se inició en 11:32 PM y tomó 50.557 segundos ==========

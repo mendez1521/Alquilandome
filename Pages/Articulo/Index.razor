@@ -1,0 +1,43 @@
+﻿@page "/articulos"
+<h3>Articulos</h3>
+<div class="container">
+    @foreach (var articulo in  Articulo)
+    {
+		<div class="card"style="width:20rem">
+			<div class="card-body">
+				<label class="card-title">@articulo.Referencia</label>
+				<div class="card-text">
+					<label><a>Descripción</a>  @articulo.Descripción</label>
+					<div class="card-text">
+						<label><a> Cantidad</a>@articulo.Cantidad</label>
+						<div class="card-text">
+							<label><a> PrecioAlquiler</a>@articulo.PrecioAlquiler</label>
+						</div>
+						<button class="btn btn-warning">Modificar</button>
+						<button class="btn btn-danger">Eliminar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+@code {
+	public string Filtro { get; set; } = "";
+	public List<ArticuloResponse> Articulo { get; set; }
+		= new List<ArticuloResponse>();
+
+	async Task CargarArticulos()
+	{
+		var resultado = 
+		await articuloServices.Consultar("Filtro");
+		if(resultado.Success)
+		{
+			Articulo = resultado.Data!;
+		}
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		await CargarArticulos();
+	}
+}
