@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Alquilandome.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230623181646_InitialCreate")]
+    [Migration("20230625202722_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

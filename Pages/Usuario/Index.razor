@@ -1,8 +1,8 @@
-﻿@page "/articulos"
+@page "/usuarios"
 
 @if (!ShowForm)
 {
-    <h3>Articulos (@Items.Count)</h3>
+    <h3>Usuarios (@Users.Count)</h3>
     <div class="mb-2">
         <button class="btn btn-success"
             @onclick="()=>{ShowForm = !ShowForm;}">
@@ -18,20 +18,24 @@
             <DataAnnotationsValidator />
             <ValidationSummary />
             <div class="mb-3 input-group">
-                <label class="input-group-text">Referencia</label>
-                <InputText class="form-control" @bind-Value="@request.Referencia"></InputText>
+                <label class="input-group-text">Nombre</label>
+                <InputText class="form-control" @bind-Value="@request.Nombre"></InputText>
             </div>
             <div class="mb-3 input-group">
-                <label class="input-group-text">Descripción</label>
-                <InputText class="form-control" @bind-Value="@request.Descripción"></InputText>
+                <label class="input-group-text">Apellido</label>
+                <InputText class="form-control" @bind-Value="@request.Nickname"></InputText>
             </div>
             <div class="mb-3 input-group">
-                <label class="input-group-text">Cantidad</label>
-                <InputNumber class="form-control" @bind-Value="@request.Cantidad"></InputNumber>
+                <label class="input-group-text">Usuario</label>
+                <InputText class="form-control" @bind-Value="@request.Email"></InputText>
             </div>
             <div class="mb-3 input-group">
-                <label class="input-group-text">Precio/Alquiler</label>
-                <InputNumber class="form-control" @bind-Value="@request.PrecioAlquiler"></InputNumber>
+                <label class="input-group-text">Clave</label>
+                <InputText class="form-control" @bind-Value="@request.Password"></InputText>
+            </div>
+            <div class="mb-3 input-group">
+                <label class="input-group-text">Rol</label>
+                <InputText class="form-control" @bind-Value="@request.Rol"></InputText>
             </div>
             
             <div class="btn-group">
@@ -46,28 +50,30 @@
         <table class="table">
         <thead>
             <tr>
-                <th>Referencia</th>
-                <th>Descripción</th>
-                <th>Cantidad</th>
-                <th>Precio/Alquiler</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Rol</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Items)
+            @foreach (var user in Users)
             {
                 <tr>
-                    <td>@item.Referencia</td>
-                    <td>@item.Descripción</td>
-                    <td>@item.Cantidad</td>
-                    <td>@item.PrecioAlquiler</td>
+                    <td>@user.Nombre</td>
+                    <td>@user.Nickname</td>
+                    <td>@user.Email</td>
+                    <td>@user.Password</td>
+                    <td>@user.Rol</td>
                     <td>
                         <div class="group">
-                            <button class="btn btn-warning oi oi-pencil" @onclick="()=>Seleccionar(item.Id)">
+                            <button class="btn btn-warning oi oi-pencil" @onclick="()=>Seleccionar(user.Id)">
                             </button>
                         </div>
                     </td>
                     <td>
-                        <div class="btn-group" @onclick="()=>Eliminar(item)">
+                        <div class="btn-group" @onclick="()=>Eliminar(user)">
                             <button class="btn btn-danger oi oi-trash">
                             </button>
                         </div>
@@ -81,46 +87,47 @@
 </div>
 @code {
     public string TituloForm => request.Id == 0 ?
-    "Agregar articulo" : "Modificar articulo";
+    "Agregar usuario" : "Modificar usuario";
 
     public bool ShowForm { get; set; } = false;
     public string Filtro { get; set; } = "";
-    public List<ArticuloResponse> Items { get; set; }
-        = new List<ArticuloResponse>();
+    public List<UsuarioResponse> Users { get; set; }
+        = new List<UsuarioResponse>();
 
-    public ArticuloRequest request { get; set; } = new ArticuloRequest();
+    public UsuarioRequest request { get; set; } = new UsuarioRequest();
 
     void Cancelar()
     {
-        request = new ArticuloRequest();
+        request = new UsuarioRequest();
         ShowForm = false;
     }
-    async Task CargarArticulos()
+    async Task CargarUsuarios()
     {
         var resultado =
-        await articuloServices.Consultar(Filtro);
+        await usuarioServices.Consultar(Filtro);
         if (resultado.Success)
         {
-            Items = resultado.Data!;
+            Users = resultado.Data!;
         }
     }
 
-    public void Editar(ArticuloResponse item)
+    public void Editar(UsuarioResponse user)
     {
         ShowForm = true;
-        request = new ArticuloRequest
+        request = new UsuarioRequest
             {
-                Id = item.Id,
-                Referencia = item.Referencia,
-                Descripción = item.Descripción,
-                Cantidad = item.Cantidad,
-                PrecioAlquiler = item.PrecioAlquiler
+                Id = user.Id,
+                Nombre = user.Nombre,
+                Nickname = user.Nickname,
+                Password = user.Password,
+                Email = user.Email,
+                Rol = user.Rol
             };
     }
 
     protected override async Task OnInitializedAsync()
     {
-        await CargarArticulos();
+        await CargarUsuarios();
     }
 
     public async Task Send()
@@ -128,22 +135,22 @@
         if (request.Id == 0)
         {
             //Debo registrar el contacto..
-            var r = await articuloServices.Crear(request);
+            var r = await usuarioServices.Crear(request);
             if (r.Success)
             {
                 Cancelar();
-                await CargarArticulos();
+                await CargarUsuarios();
                 StateHasChanged();
             }
         }
         else
         {
             //Debo solicitar modificar el contacto...
-            var r = await articuloServices.Modificar(request);
+            var r = await usuarioServices.Modificar(request);
             if (r.Success)
             {
                 Cancelar();
-                await CargarArticulos();
+                await CargarUsuarios();
                 StateHasChanged();
             }
         }
@@ -152,20 +159,20 @@
     public void Seleccionar(int Id)
     {
         ShowForm = true;
-        request = Items
+        request = Users
         .Where(c => c.Id == Id)
         .Select(c => c.ToRequest())
-        .FirstOrDefault() ?? new ArticuloRequest();
+        .FirstOrDefault() ?? new UsuarioRequest();
     }
 
-    public async Task Eliminar(ArticuloResponse user)
+    public async Task Eliminar(UsuarioResponse user)
     {
-        var resultado = await articuloServices.Eliminar(user.ToRequest());
+        var resultado = await usuarioServices.Eliminar(user.ToRequest());
         if (resultado.Success)
         {
-            await CargarArticulos();
+            await CargarUsuarios();
             StateHasChanged();
-        } 
+        }
     }
 
 }

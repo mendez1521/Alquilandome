@@ -15,7 +15,7 @@ namespace Alquilandome.Data.entities
         public string? Correo { get; set; }
         public string Sexo { get; set; }
 
-        public static Cliente crear(ClienteRequest cliente)
+        public static Cliente Crear(ClienteRequest cliente)
      => new Cliente()
      {
          Nombre = cliente.Nombre,
