@@ -8,14 +8,15 @@ namespace Alquilandome.Data.entities
     // Clase Alquiler
     public class Alquiler
     {
-                                                                                                                         
+        public Alquiler()
+        {
+            //Contacto = new Contacto();
+            Detalles = new List<AlquilerDetalle>();
+        }                                                                                                               
         [Key]
         public int Id { get; set; }
-
+ 
         public int ClienteId { get; set; }
-
-        [ForeignKey("ClienteId")]
-        public virtual Cliente Cliente { get; set;}
 
         public DateTime FechaDeEntrega { get; set; }
 
@@ -25,52 +26,34 @@ namespace Alquilandome.Data.entities
 
         public virtual ICollection<AlquilerDetalle> Detalles {get; set;}
 
-        public static Alquiler Crear(AlquilerRequest alquiler)
-        =>new Alquiler()
+        public static Alquiler Crear(AlquilerRequest request)
+        => new()
         {
-        ClienteId = alquiler.ClienteId,
-        FechaDeEntrega=alquiler.FechaDeEntrega,
-        Fecha=alquiler.Fecha,
-        Total=alquiler.Total,
-        Detalles = alquiler.Detalles
-        .Select(d=>AlquilerDetalle.Crear(d))
-        .ToList()
+            ClienteId = request.ClienteId,
+            Fecha = DateTime.Now,
+            FechaDeEntrega = request.FechaDeEntrega,
+            Detalles = request.Detalles
+            .Select(detalle=>AlquilerDetalle.Crear(detalle))
+            .ToList()
         };
-        public bool Modificar(AlquilerRequest Alquiler)
-        {
-            var cambio = false;
-            if(ClienteId != Alquiler.ClienteId)
-            {
-                ClienteId = Alquiler.ClienteId;
-                cambio = true;
-            }
-            if (FechaDeEntrega != Alquiler.FechaDeEntrega)
-            {
-                FechaDeEntrega = Alquiler.FechaDeEntrega;
-                cambio = true;
-            }
-            if (Fecha != Alquiler.Fecha)
-            {
-                Fecha = Alquiler.Fecha;
-                cambio = true;
-            }
-            if (Total != Alquiler.Total)
-            {
-                Total = Alquiler.Total;
-                cambio = true;
-            }
-            return cambio;
+    #region Relaciones
+    [ForeignKey(nameof(ClienteId))]
+    public virtual Cliente cliente { get; set; }
+    #endregion
 
-        }
-
+    [NotMapped]
+    public decimal SubTotal =>
+        Detalles != null ? //IF
+        Detalles.Sum(d => d.SubTotal) //Verdadero
+        :
+        0;//Falso
         public AlquilerResponse ToResponse()
             => new AlquilerResponse()
             {
                 ClienteId = ClienteId,
-                Cliente = Cliente.ToResponse(),
+                Cliente = cliente.ToResponse(),
                 FechaDeEntrega = FechaDeEntrega,
                 Fecha = Fecha,
-                Total = Total,
                 Detalles = Detalles.Select(d=>d.ToResponse()).ToList()
             };
 

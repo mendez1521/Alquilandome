@@ -14,7 +14,6 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddDbContext<MyDbContext>();
 builder.Services.AddScoped<IMyDbContext,MyDbContext>();
 builder.Services.AddScoped<IArticuloServices,ArticuloServices>();
-builder.Services.AddScoped<IAlquilerDServices,AlquilerDServices>();
 builder.Services.AddScoped<IAlquilerServices,AlquilerServices>();
 builder.Services.AddScoped<IClienteServices,ClienteServices>();
 builder.Services.AddScoped<IUsuarioServices,UsuarioServices>();

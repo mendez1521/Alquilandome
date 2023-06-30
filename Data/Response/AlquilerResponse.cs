@@ -1,4 +1,5 @@
-﻿using Alquilandome.Data.Request;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Alquilandome.Data.Request;
 
 namespace Alquilandome.Data.Response
 {
@@ -6,22 +7,16 @@ namespace Alquilandome.Data.Response
     {
         public int Id { get; set; }
         public int ClienteId { get; set; }
+        public DateTime FechaDeEntrega { get; set; } = DateTime.Now.AddDays(2);
+        public DateTime Fecha { get; set; } = DateTime.Now;
         public ClienteResponse Cliente {get; set;}
-        public DateTime FechaDeEntrega { get; set; }
-        public DateTime Fecha { get; set; }
-        public decimal Total { get; set; }
-        public List<AlquilerDetalleResponse> Detalles {get; set;}
+        public virtual ICollection<AlquilerDetalleResponse> Detalles { get; set; }
 
-         public AlquilerRequest ToRequest()
-        { 
-            return new AlquilerRequest 
-            { 
-                Id = Id,
-                ClienteId = ClienteId, 
-                FechaDeEntrega = FechaDeEntrega, 
-                Fecha = Fecha, 
-                Total = Total
-            }; 
+        [NotMapped]
+        public decimal SubTotal =>
+            Detalles != null ? //IF
+            Detalles.Sum(d => d.SubTotal) //Verdadero
+            :
+            0;//Falso
         }
-    }
 }

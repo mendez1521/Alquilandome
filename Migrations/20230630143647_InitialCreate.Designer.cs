@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Alquilandome.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230625202722_InitialCreate")]
+    [Migration("20230630143647_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Alquilandome.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("ProductVersion", "7.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -71,9 +71,6 @@ namespace Alquilandome.Migrations
 
                     b.Property<decimal>("PrecioAlquiler")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("Recibido")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -172,7 +169,6 @@ namespace Alquilandome.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Rol")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -182,13 +178,13 @@ namespace Alquilandome.Migrations
 
             modelBuilder.Entity("Alquilandome.Data.entities.Alquiler", b =>
                 {
-                    b.HasOne("Alquilandome.Data.entities.Cliente", "Cliente")
+                    b.HasOne("Alquilandome.Data.entities.Cliente", "cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cliente");
+                    b.Navigation("cliente");
                 });
 
             modelBuilder.Entity("Alquilandome.Data.entities.AlquilerDetalle", b =>

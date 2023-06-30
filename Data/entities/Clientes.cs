@@ -8,12 +8,12 @@ namespace Alquilandome.Data.entities
     public class Cliente
     {
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Cedula { get; set; }
-        public string Telefono { get; set; }
-        public string Direccion { get; set; }
+        public string Nombre { get; set; } = null!;
+        public string Cedula { get; set; } = null!;
+        public string Telefono { get; set; } = null!;
+        public string Direccion { get; set; } = null!;
         public string? Correo { get; set; }
-        public string Sexo { get; set; }
+        public string Sexo { get; set; } = null!;
 
         public static Cliente Crear(ClienteRequest cliente)
      => new Cliente()
@@ -65,7 +65,7 @@ namespace Alquilandome.Data.entities
                 Telefono = Telefono,
                 Direccion = Direccion,
                 Correo = Correo,
-                Sexo = Sexo,
+                Sexo = Sexo
             };
     }
 

@@ -55,7 +55,7 @@ namespace Alquilandome.Migrations
                     Nickname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rol = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Rol = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,8 +93,7 @@ namespace Alquilandome.Migrations
                     AlquilerId = table.Column<int>(type: "int", nullable: false),
                     ArticuloId = table.Column<int>(type: "int", nullable: false),
                     Cantidad = table.Column<int>(type: "int", nullable: false),
-                    PrecioAlquiler = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Recibido = table.Column<bool>(type: "bit", nullable: false)
+                    PrecioAlquiler = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {

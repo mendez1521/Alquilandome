@@ -6,14 +6,14 @@ namespace Alquilandome.Data.Response
     public class UsuarioResponse
     {
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Nickname { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public string Rol { get; set; }
+        public string Nombre { get; set; } = null!;
+        public string Nickname { get; set; } = null!;
+        public string Password { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string? Rol { get; set; }
 
         public UsuarioRequest ToRequest()
-        { 
+        {  
             return new UsuarioRequest 
             { 
                 Id = Id,

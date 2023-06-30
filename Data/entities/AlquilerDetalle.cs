@@ -12,60 +12,36 @@ namespace Alquilandome.Data.entities
         [Key]
         public int Id { get; set; }
         public int AlquilerId { get; set; }
-        
-        [ForeignKey("AlquilerId")]
-        public virtual Alquiler Alquiler { get; set; }
-
         public int ArticuloId { get; set; }
-        
-        [ForeignKey("ArticuloId")]
-        public virtual Articulo Articulo { get; set; }
         public int Cantidad { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal PrecioAlquiler { get; set; }
-        public bool Recibido { get; set; }
 
-        public static AlquilerDetalle Crear(AlquilerDetalleRequest AlquilerDEtalle)
-        =>new AlquilerDetalle()
-       {
-           AlquilerId = AlquilerDEtalle.AlquilerId,
-           ArticuloId = AlquilerDEtalle.ArticuloId,
-           Cantidad = AlquilerDEtalle.Cantidad,
-           PrecioAlquiler = AlquilerDEtalle.PrecioAlquiler,
-
-       };
-
-       public bool Modificar(AlquilerDetalleRequest articulo)
+        public static AlquilerDetalle Crear(AlquilerDetalleRequest request)
+        => new()
         {
-            var cambio = false;
-            if (ArticuloId != articulo.ArticuloId)
-            {
-                ArticuloId = articulo.ArticuloId;
-                cambio = true;
-            }
-            if (Cantidad != articulo.Cantidad)
-            {
-                Cantidad = articulo.Cantidad;
-                cambio = true;
-            }
-            if (PrecioAlquiler != articulo.PrecioAlquiler)
-            {
-                PrecioAlquiler = articulo.PrecioAlquiler;
-                cambio = true;
-            }
-            
-            return cambio;
+            ArticuloId = request.ArticuloId,
+            Cantidad = request.Cantidad,
+            PrecioAlquiler = request.PrecioAlquiler,
+        };
 
-        }
 
+        #region Relaciones
+        [ForeignKey(nameof(AlquilerId))]
+        public virtual Alquiler Alquiler { get; set; }
+        [ForeignKey(nameof(ArticuloId))]
+        public virtual Articulo Articulo { get; set; }
+        #endregion
+
+        [NotMapped]
+        public decimal SubTotal => Cantidad * PrecioAlquiler;
         public AlquilerDetalleResponse ToResponse()
             => new AlquilerDetalleResponse()
             {
                 AlquilerId = AlquilerId,
-                ArticuloId = ArticuloId,
                 Articulo = Articulo.ToResponse(),
                 Cantidad = Cantidad,
                 PrecioAlquiler = PrecioAlquiler,
-
             };
     }
 

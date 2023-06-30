@@ -7,8 +7,8 @@ namespace Alquilandome.Data.entities
     public class Articulo
     {
         public int Id { get; set; }
-        public string Referencia { get; set; }
-        public string Descripción { get; set; }
+        public string Referencia { get; set; } = null!;
+        public string Descripción { get; set; } = null!;
         public int Cantidad { get; set; }
         public decimal PrecioAlquiler { get; set; }
 
